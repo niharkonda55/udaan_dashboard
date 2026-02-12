@@ -1,0 +1,72 @@
+
+
+<?php $__env->startSection('title', 'Completed Projects'); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-check-circle"></i> Completed Projects</h2>
+    <a href="<?php echo e(route('editor.dashboard')); ?>" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-list-ul"></i> My Completed Projects</h5>
+    </div>
+    <div class="card-body">
+        <?php if($projects->count() > 0): ?>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Priority</th>
+                            <th>Cameraman</th>
+                            <th>Completed</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr>
+                                <td>
+                                    <strong><?php echo e($project->name); ?></strong>
+                                    <?php if($project->description): ?>
+                                        <br><small class="text-muted"><?php echo e(\Illuminate\Support\Str::limit($project->description, 50)); ?></small>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <span class="<?php echo e($project->priority_badge_class); ?>"><?php echo e(ucfirst($project->priority)); ?></span>
+                                </td>
+                                <td>
+                                    <?php echo $project->cameraman ? $project->cameraman->name : '<span class="text-muted">Not assigned</span>'; ?>
+
+                                </td>
+                                <td><?php echo e($project->updated_at->format('M d, Y')); ?></td>
+                                <td>
+                                    <a href="<?php echo e(route('editor.projects.show', $project)); ?>" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-3">
+                <?php echo e($projects->links()); ?>
+
+            </div>
+        <?php else: ?>
+            <div class="text-center py-5">
+                <i class="bi bi-inbox fs-1 text-muted"></i>
+                <p class="text-muted mt-3">No completed projects found.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\nihar\Desktop\udaan_events\resources\views/editor/projects/completed.blade.php ENDPATH**/ ?>
